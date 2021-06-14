@@ -17,7 +17,7 @@
  */
 package org.apache.hadoop.hive.ql.udf.generic;
 
-import junit.framework.TestCase;
+
 
 import org.apache.hadoop.hive.common.type.Date;
 import org.apache.hadoop.hive.common.type.Timestamp;
@@ -30,9 +30,17 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoFactory;
 import org.apache.hadoop.io.Text;
+import static org.junit.Assert.assertEquals;
 
-public class TestGenericUDFDateFormat extends TestCase {
+import org.junit.Ignore;
+import org.junit.Test;
 
+/**
+ * TestGenericUDFDateFormat.
+ */
+public class TestGenericUDFDateFormat {
+
+  @Test
   public void testDateFormatStr() throws HiveException {
     GenericUDFDateFormat udf = new GenericUDFDateFormat();
     ObjectInspector valueOI0 = PrimitiveObjectInspectorFactory.writableStringObjectInspector;
@@ -64,6 +72,7 @@ public class TestGenericUDFDateFormat extends TestCase {
     runAndVerifyStr("2015-04-12 10", fmtText, "Sunday", udf);
   }
 
+  @Test
   public void testWrongDateStr() throws HiveException {
     GenericUDFDateFormat udf = new GenericUDFDateFormat();
     ObjectInspector valueOI0 = PrimitiveObjectInspectorFactory.writableStringObjectInspector;
@@ -79,6 +88,7 @@ public class TestGenericUDFDateFormat extends TestCase {
     runAndVerifyStr(null, fmtText, null, udf);
   }
 
+  @Test
   public void testDateFormatDate() throws HiveException {
     GenericUDFDateFormat udf = new GenericUDFDateFormat();
     ObjectInspector valueOI0 = PrimitiveObjectInspectorFactory.writableDateObjectInspector;
@@ -99,6 +109,7 @@ public class TestGenericUDFDateFormat extends TestCase {
     runAndVerifyDate("2015-04-12", fmtText, "Sunday", udf);
   }
 
+  @Test
   public void testDateFormatTs() throws HiveException {
     GenericUDFDateFormat udf = new GenericUDFDateFormat();
     ObjectInspector valueOI0 = PrimitiveObjectInspectorFactory.writableTimestampObjectInspector;
@@ -120,6 +131,22 @@ public class TestGenericUDFDateFormat extends TestCase {
     runAndVerifyTs("2015-04-12 10:30:45", fmtText, "Sunday", udf);
   }
 
+  @Test
+  public void testDateFormatTsWithTimeZone() throws HiveException {
+    GenericUDFDateFormat udf = new GenericUDFDateFormat();
+    ObjectInspector valueOI0 = PrimitiveObjectInspectorFactory.writableTimestampObjectInspector;
+    Text fmtText = new Text("yyyy-MM-dd HH:mm:ss.SSS z");
+    ObjectInspector valueOI1 = PrimitiveObjectInspectorFactory
+        .getPrimitiveWritableConstantObjectInspector(TypeInfoFactory.stringTypeInfo, fmtText);
+    ObjectInspector[] arguments = { valueOI0, valueOI1 };
+
+    udf.initialize(arguments);
+
+    runAndVerifyTs("2015-04-08 10:30:45", fmtText, "2015-04-08 10:30:45.000 PDT", udf);
+
+  }
+
+  @Test
   public void testNullFmt() throws HiveException {
     GenericUDFDateFormat udf = new GenericUDFDateFormat();
     ObjectInspector valueOI0 = PrimitiveObjectInspectorFactory.writableStringObjectInspector;
@@ -133,6 +160,7 @@ public class TestGenericUDFDateFormat extends TestCase {
     runAndVerifyStr("2015-04-05", fmtText, null, udf);
   }
 
+  @Test
   public void testWrongFmt() throws HiveException {
     GenericUDFDateFormat udf = new GenericUDFDateFormat();
     ObjectInspector valueOI0 = PrimitiveObjectInspectorFactory.writableStringObjectInspector;
@@ -148,6 +176,7 @@ public class TestGenericUDFDateFormat extends TestCase {
 
 
   @Test
+  @Ignore
   public void testJulianDates() throws HiveException {
     GenericUDFDateFormat udf = new GenericUDFDateFormat();
     ObjectInspector valueOI0 = PrimitiveObjectInspectorFactory.writableStringObjectInspector;
