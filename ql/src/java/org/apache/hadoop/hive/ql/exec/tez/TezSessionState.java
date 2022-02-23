@@ -355,12 +355,13 @@ public class TezSessionState {
 
     setupSessionAcls(tezConfig, conf);
 
-    final TezClient session = TezClient.newBuilder("HIVE-" + sessionId, tezConfig)
+    String jobName = tezConfig.get("tez.job.name", "HIVE-" + sessionId);
+    final TezClient session = TezClient.newBuilder(jobName, tezConfig)
         .setIsSession(true).setLocalResources(commonLocalResources)
         .setCredentials(llapCredentials).setServicePluginDescriptor(servicePluginsDescriptor)
         .build();
 
-    LOG.info("Opening new Tez Session (id: " + sessionId
+    LOG.info("Opening new Tez Session (id: " + sessionId + ", " + jobName
         + ", scratch dir: " + tezScratchDir + ")");
 
     TezJobMonitor.initShutdownHook();
