@@ -1,3 +1,17 @@
+Release Notes - Hive - Version 3.1.3a
+
+* Bump version
+  * log4j2: 2.17.2
+  * guava: 27.0-jre
+  * tez: 0.10.1
+  * spark: 3.1.3
+  * hadoop: 3.2.2
+  * hbase: 2.4.12
+* Use config `tez.job.name` value as TezClient name
+* Hive HA connection filter zookeeper node
+
+--
+
 Release Notes - Hive - Version 3.1.3
 
 ** Bug
