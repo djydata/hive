@@ -23,6 +23,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.security.auth.login.LoginException;
@@ -128,7 +129,7 @@ public class SampleTezSessionState extends WmTezSession {
       public void onFailure(Throwable t) {
         future.setException(t);
       }
-    });
+    }, MoreExecutors.directExecutor());
     return future;
   }
 
