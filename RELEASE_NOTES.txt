@@ -1,4 +1,12 @@
-Release Notes - Hive - Version 3.1.3a
+Release Notes - Hive - Version 3.1.3b
+
+* HIVE-25268: date_format udf returns wrong results for dates prior to 1900 if the local timezone is other than UTC
+* HIVE-25093: date_format() UDF is returning output in UTC time zone only
+* HIVE-22099: Several date related UDFs can't handle Julian dates properly since HIVE-20007
+
+--
+
+Release Notes - Hive - Version 3.1.3b
 
 * Bump version
   * log4j2: 2.17.2
