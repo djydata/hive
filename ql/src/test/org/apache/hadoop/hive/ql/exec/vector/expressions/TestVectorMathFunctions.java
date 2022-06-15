@@ -138,6 +138,15 @@ public class TestVectorMathFunctions {
     return batch;
   }
 
+  public static VectorizedRowBatch getVectorizedRowBatchDateInStringOut(int[] intValues) {
+    // get date in timestamp out, and change timestamp out to string out
+    VectorizedRowBatch batch =  getVectorizedRowBatchDateInTimestampOut(intValues);
+    BytesColumnVector outV = new BytesColumnVector(intValues.length);
+    batch.cols[1] = outV;
+    return batch;
+  }
+
+
   public static VectorizedRowBatch getVectorizedRowBatchDoubleInLongOut() {
     VectorizedRowBatch batch = new VectorizedRowBatch(2);
     LongColumnVector lcv;
@@ -295,6 +304,30 @@ public class TestVectorMathFunctions {
     batch.cols[1] = outV;
 
     batch.size = longValues.length;
+    return batch;
+  }
+
+  public static VectorizedRowBatch getVectorizedRowBatchTimestampInStringOut(
+      long[] epochSecondValues, int[] nanoValues) {
+    Random r = new Random(345);
+    VectorizedRowBatch batch = new VectorizedRowBatch(2);
+    batch.size = epochSecondValues.length;
+
+    TimestampColumnVector inV;
+    BytesColumnVector outV;
+    inV = new TimestampColumnVector(batch.size);
+    outV = new BytesColumnVector(batch.size);
+
+    for (int i = 0; i < batch.size; i++) {
+      Timestamp randTimestamp = RandomTypeUtil.getRandTimestamp(r);
+      epochSecondValues[i] = randTimestamp.toEpochSecond();
+      nanoValues[i] = randTimestamp.getNanos();
+      inV.set(i, randTimestamp.toSqlTimestamp());
+    }
+
+    batch.cols[0] = inV;
+    batch.cols[1] = outV;
+
     return batch;
   }
 
