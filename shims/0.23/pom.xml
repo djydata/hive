@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.apache.hive</groupId>
     <artifactId>hive</artifactId>
-    <version>3.1.2b</version>
+    <version>3.1.2c</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 

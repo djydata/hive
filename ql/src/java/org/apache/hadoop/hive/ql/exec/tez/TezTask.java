@@ -761,5 +761,10 @@ public class TezTask extends Task<TezWork> {
         return dagClient.waitForCompletionWithStatusUpdates(statusGetOpts);
       }
     }
+
+    @Override
+    public String getWebUIAddress() {
+      return null;
+    }
   }
 }

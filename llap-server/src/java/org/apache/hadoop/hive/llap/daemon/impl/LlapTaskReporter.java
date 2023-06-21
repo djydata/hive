@@ -290,8 +290,10 @@ public class LlapTaskReporter implements TaskReporterInterface {
       int fromEventId = task.getNextFromEventId();
       int fromPreRoutedEventId = task.getNextPreRoutedEventId();
       int maxEvents = Math.min(maxEventsToGet, task.getMaxEventsToHandle());
+      //Adding by tez 0.10.2, and hive 3.1.2 haven't support yet.
+      long usedMemory = 0;
       TezHeartbeatRequest request = new TezHeartbeatRequest(requestId, events, fromPreRoutedEventId,
-          containerIdStr, task.getTaskAttemptID(), fromEventId, maxEvents);
+          containerIdStr, task.getTaskAttemptID(), fromEventId, maxEvents, usedMemory);
       if (LOG.isDebugEnabled()) {
         LOG.debug("Sending heartbeat to AM, request=" + request);
       }
